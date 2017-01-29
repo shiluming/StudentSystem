@@ -19,13 +19,13 @@
 
             <div class="row-fluid">
                 <div class="block">
-                    <p class="block-heading" data-toggle="collapse" data-target="#chart-container">Performance Chart</p>
+                    <p class="block-heading" data-toggle="collapse" data-target="#chart-container">系统信息监控</p>
                     <div id="chart-container" class="block-body collapse in">
-                        <div id="line-chart"></div>
+                        <div id="line-chart"><h1>该功能开发中</h1></div>
                     </div>
                 </div>
             </div>
-
+			<!-- 
             <div class="row-fluid">
                 <div class="block span6">
                     <div class="block-heading" data-toggle="collapse" data-target="#tablewidget">Users</div>
@@ -154,7 +154,7 @@
                     </div>
                 </div>
             </div>
-
+		 -->
       
 </body>
 </html>

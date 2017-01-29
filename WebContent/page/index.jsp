@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/page/lib/bootstrap/css/bootstrap-responsive.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/page/stylesheets/theme.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/page/lib/font-awesome/css/font-awesome.css">
-
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/page/lib/bootstrap/css/bootstrap-table.css">
     <script src="${pageContext.request.contextPath}/page/lib/jquery-1.8.1.min.js" type="text/javascript"></script>
 
     <!-- Demo page code -->
@@ -48,58 +48,29 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+    <script src="${pageContext.request.contextPath}/page/lib/bootstrap/js/bootstrap.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
 </head>
 <body>
-
+<%
+	if(session.getAttribute("loginUser")==null){
+		response.sendRedirect(request.getContextPath()+"/page/sign-in.jsp");
+		return;
+	}
+%>
 <div class="navbar">
 	<jsp:include page="header.jsp" />
 </div>
 
 <div class="container-fluid">
-
-    <div class="row-fluid">
-        <div class="span3">
-            <div class="sidebar-nav">
-                <div class="nav-header" data-toggle="collapse" data-target="#dashboard-menu"><i class="icon-dashboard"></i>管理员系统</div>
-                <ul id="dashboard-menu" class="nav nav-list collapse in">
-                    <li><a href="index.html">Home</a></li>
-                    <li ><a href="users.html">Sample List</a></li>
-                    <li ><a href="user.html">Sample Item</a></li>
-                    <li ><a href="gallery.html">Gallery</a></li>
-                    <li ><a href="calendar.html">Calendar</a></li>
-                    <li ><a href="faq.html">Faq</a></li>
-                    <li ><a href="help.html">Help</a></li>
-
-                </ul>
-                <div class="nav-header" data-toggle="collapse" data-target="#accounts-menu"><i class="icon-briefcase"></i>教师系统<span class="label label-info">+10</span></div>
-                <ul id="accounts-menu" class="nav nav-list collapse in">
-                    <li ><a href="sign-in.html">Sign In</a></li>
-                    <li ><a href="sign-up.html">Sign Up</a></li>
-                    <li ><a href="reset-password.html">Reset Password</a></li>
-                </ul>
-
-                <div class="nav-header" data-toggle="collapse" data-target="#settings-menu"><i class="icon-exclamation-sign"></i>学生系统</div>
-                <ul id="settings-menu" class="nav nav-list collapse in">
-                    <li ><a href="403.html">403 page</a></li>
-                    <li ><a href="404.html">404 page</a></li>
-                    <li ><a href="500.html">500 page</a></li>
-                    <li ><a href="503.html">503 page</a></li>
-                </ul>
-
-                <div class="nav-header" data-toggle="collapse" data-target="#legal-menu"><i class="icon-legal"></i>Legal</div>
-                <ul id="legal-menu" class="nav nav-list collapse in">
-                    <li ><a href="privacy-policy.html">Privacy Policy</a></li>
-                    <li ><a href="terms-and-conditions.html">Terms and Conditions</a></li>
-                </ul>
-            </div>
+	<div class="row-fluid">
+		 <div class="span3">
+			<jsp:include page="left.jsp"/>
+		 </div>
+		<div class="span9">
+        	<jsp:include page="${mainPage }" />
         </div>
-        <div class="span9">
-        	<jsp:include page="rigth.jsp" />
-        </div>
-        
-    </div>
-
-    <script src="${pageContext.request.contextPath}/page/lib/bootstrap/js/bootstrap.js"></script>
+	</div>
 </div>
 </body>
 </html>

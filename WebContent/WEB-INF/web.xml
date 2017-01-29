@@ -68,4 +68,13 @@
 		<error-code>403</error-code>
 		<location>/page/403.jsp</location>
 	</error-page>
+	
+	<servlet>
+		<servlet-name>bootstrap</servlet-name>
+		<servlet-class>com.sise.controller.BootstrapTableServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>bootstrap</servlet-name>
+		<url-pattern>/table</url-pattern>
+	</servlet-mapping>
 </web-app>

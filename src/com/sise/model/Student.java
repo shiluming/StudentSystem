@@ -17,6 +17,16 @@ public class Student {
 	private String email;
 	private Integer grade;
 	private String status;
+	
+	private String privilege;
+	
+	
+	public String getPrivilege() {
+		return privilege;
+	}
+	public void setPrivilege(String privilege) {
+		this.privilege = privilege;
+	}
 	public Integer getId() {
 		return id;
 	}

@@ -14,7 +14,7 @@
 
                 <li id="fat-menu" class="dropdown">
                     <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="icon-user"></i> ${loginUser}
+                        <i class="icon-user"></i> ${loginUser.name}
                         <i class="icon-caret-down"></i>
                     </a>
                 </li>

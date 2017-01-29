@@ -6,6 +6,16 @@ public class Grade {
 	private String grade;
 	private String gradeName;
 	private Integer teacher;
+	
+	private String teacherName;
+	
+	
+	public String getTeacherName() {
+		return teacherName;
+	}
+	public void setTeacherName(String teacherName) {
+		this.teacherName = teacherName;
+	}
 	public Integer getId() {
 		return id;
 	}

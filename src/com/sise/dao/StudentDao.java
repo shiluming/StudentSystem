@@ -13,19 +13,22 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Repository;
 
+import com.sise.dao.AdminDao.RowCallbackHandlerAdmin;
+import com.sise.model.Admin;
 import com.sise.model.Student;
+import com.sise.utils.EncodingTool;
 
 @Repository("studentDao")
-public class StudentDao extends BaseCrud<Student>{
+public class StudentDao extends BaseCrud<Student> implements LoginService<Student>{
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
 	
 	@Override
 	public int save(Student cls) throws Exception {
-		String sql = "INSERT INTO tb_student values(null,?,?,?,?,?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO tb_student values(null,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		return jdbcTemplate.update(sql,new Object[]{cls.getCode(),cls.getPassword(),cls.getJoinTime(),cls.getName(),cls.getMasterTeacher()
-				,cls.getSex(),cls.getAge(),cls.getAddress(),cls.getTell(),cls.getEmail(),cls.getGrade(),cls.getStatus()});
+				,cls.getSex(),cls.getAge(),cls.getAddress(),cls.getTell(),cls.getEmail(),cls.getGrade(),cls.getStatus(),cls.getPrivilege()});
 	}
 
 	@Override
@@ -135,6 +138,7 @@ public class StudentDao extends BaseCrud<Student>{
 			s.setEmail(rs.getString("email"));
 			s.setGrade(rs.getInt("grade"));
 			s.setStatus(rs.getString("status"));
+			s.setPrivilege(rs.getString("privilege"));
 			list.add(s);
 			
 		}
@@ -143,13 +147,52 @@ public class StudentDao extends BaseCrud<Student>{
 
 	@Override
 	public Student findById(Student cls) throws Exception {
-		String sql = "SELECT * FROM tb_student where id=?";
+		String sql = "SELECT * FROM tb_student where code=?";
 		List<Student> list = new ArrayList<Student>();
 		jdbcTemplate.query(sql, new Object[]{cls.getId()},new RowCallbackHandlerStudent(list));
 		if(list.size()>0) {
 			return list.get(0);
 		}
 		return null;
+	}
+
+	@Override
+	public Student login(Student cls) {
+		String sql = "SELECT * FROM tb_student where code=? and password=?";
+		List<Student> list = new ArrayList<Student>();
+		jdbcTemplate.query(sql, new Object[]{cls.getCode(),cls.getPassword()},new RowCallbackHandlerStudent(list));
+		if(list.size()>0) {
+			return list.get(0);
+		}
+		
+		return null;
+	}
+
+	@Override
+	public List<Student> findByLimit(Integer page, Integer pageSize) {
+		return findByLimit(page,pageSize,null);
+	}
+	
+	public List<Student> findByLimit(Integer page,Integer pageSize,String search) {
+		StringBuilder sb = new StringBuilder("SELECT * FROM tb_student WHERE 1=1");
+		Object[] obj = null;
+		if(search!=null) {
+			search = EncodingTool.encodeStr(search);
+			sb.append(" and name like ?");
+			obj = new Object[]{"%"+search+"%",page,pageSize};
+		}else {
+			obj = new Object[]{page,pageSize};
+		}
+		sb.append(" ORDER BY id ASC LIMIT ?,?");
+		List<Student> list = new ArrayList<Student>();
+		jdbcTemplate.query(sb.toString(), obj,new RowCallbackHandlerStudent(list));
+		return list;
+	}
+
+	@Override
+	public Integer count() throws Exception {
+		String sql = "SELECT COUNT(*) FROM tb_student";
+		return jdbcTemplate.queryForObject(sql, Integer.class);
 	}
 	
 

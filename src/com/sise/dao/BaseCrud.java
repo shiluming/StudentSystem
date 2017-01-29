@@ -63,4 +63,19 @@ public abstract class BaseCrud<T> {
 	 * @throws Exception
 	 */
 	public abstract T findById(T cls) throws Exception;
+	
+	/**
+	 * 分页查找
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public abstract List<T> findByLimit(Integer page,Integer pageSize);		
+	
+	/**
+	 * 计算总数
+	 * @return
+	 * @throws Exception
+	 */
+	public abstract Integer count() throws Exception;
 }

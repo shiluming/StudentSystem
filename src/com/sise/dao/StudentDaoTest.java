@@ -30,9 +30,9 @@ public class StudentDaoTest {
 
 	@Test
 	public void testSaveStudent() {
-		for(int i=0;i<100;i++) {
+		for(int i=1;i<99;i++) {
 			Student student = new Student();
-			student.setCode("124070216"+i);
+			student.setCode("1340"+i);
 			student.setPassword("123456");
 			student.setName("华软计算机系学生 "+i);
 			student.setJoinTime(new Date());
@@ -40,7 +40,6 @@ public class StudentDaoTest {
 			try {
 				studentDao.save(student);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
