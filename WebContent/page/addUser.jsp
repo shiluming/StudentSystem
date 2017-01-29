@@ -57,6 +57,7 @@
   </div>
 
 </div>
+
 <script type="text/javascript">
 
 $('#datetimepicker').datetimepicker({
@@ -65,10 +66,6 @@ $('#datetimepicker').datetimepicker({
 
 $(function() {
 	init();
-	
-	
-	
-	
 });
 
 function init() {

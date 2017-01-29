@@ -2,15 +2,22 @@
     pageEncoding="utf-8"%>
 <h1 class="page-title">学生列表</h1>
 <div class="btn-toolbar">
-    <button class="btn btn-primary"><i class="icon-plus"></i><a href="${pageContext.request.contextPath}/admin/goEditUser.do"> New User</a></button>
+    <button class="btn btn-primary"><i class="icon-plus"></i><a href="${pageContext.request.contextPath}/admin/goEditUser.do">学生添加</a></button>
+    <!-- 
     <button class="btn">Import</button>
     <button class="btn">Export</button>
+  	 -->
   <div class="btn-group">
   </div>
 </div>
 <script type="text/javascript">
 function codeFormatter(code) {
 	return '<a href="${pageContext.request.contextPath}/admin/goEditUser.do?id=' + code + '">' + code + '</a>';
+}
+
+function opFormatter(code) {
+	return '<a href="${pageContext.request.contextPath}/admin/goEditUser.do?id=' + code + '">删除 </a>&nbsp;'+
+	'<a href="${pageContext.request.contextPath}/admin/goEditUser.do?id=' + code + '">修改 </a>';
 }
 </script>
 <div class="well" style="height: 100%">
@@ -34,6 +41,7 @@ function codeFormatter(code) {
         <th data-field="joinTime" data-align="center" data-sortable="true">注册时间</th>
         <th data-field="email" data-align="center" data-sortable="true">email</th>
         <th data-field="grade" data-align="center" data-sortable="true">年级</th>
+        <th data-field="code" data-align="center" data-formatter="opFormatter" data-sortable="true">操作</th>
 	</tr>
 	</thead>
 </table>

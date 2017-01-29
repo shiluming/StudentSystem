@@ -2,9 +2,11 @@
     pageEncoding="utf-8"%>
 <h1 class="page-title">班级列表</h1>
 <div class="btn-toolbar">
-    <button class="btn btn-primary"><i class="icon-plus"></i> New User</button>
+    <button class="btn btn-primary"><i class="icon-plus"></i><a href="${pageContext.request.contextPath}/admin/goAddClass.do"> 班级新增</a></button>
+    <!--
     <button class="btn">Import</button>
     <button class="btn">Export</button>
+  	-->
   <div class="btn-group">
   </div>
 </div>
