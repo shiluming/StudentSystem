@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import com.sise.dao.StudentDao.RowCallbackHandlerStudent;
 import com.sise.model.Student;
 import com.sise.model.Teacher;
+import com.sise.utils.EncodingTool;
 
 @Repository("teacherDao")
 public class TeacherDao extends BaseCrud<Teacher> implements LoginService<Teacher>{
@@ -101,17 +102,36 @@ public class TeacherDao extends BaseCrud<Teacher> implements LoginService<Teache
 		
 	}
 
+	/**
+	 * 该方法是根据id拿值的
+	 */
 	@Override
 	public Teacher findById(Teacher cls) throws Exception {
-		String sql = "SELECT * FROM tb_teacher where id=?";
+		String sql = "SELECT * FROM tb_teacher where code=?";
 		List<Teacher> list = new ArrayList<Teacher>();
-		jdbcTemplate.query(sql, new Object[]{cls.getId()},new RowCallbackHandlerTeacher(list));
+		jdbcTemplate.query(sql, new Object[]{cls.getCode()},new RowCallbackHandlerTeacher(list));
 		if(list.size()>0) {
 			return list.get(0);
 		}
 		return null;
 	}
-	
+	/**
+	 * 本人懒，所以不想改上面的方法了
+	 * 这个就是根据  id  拿值的
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public Teacher findById(Integer id) throws Exception {
+		String sql = "SELECT * FROM tb_teacher where id=?";
+		List<Teacher> list = new ArrayList<Teacher>();
+		jdbcTemplate.query(sql, new Object[]{id},new RowCallbackHandlerTeacher(list));
+		if(list.size()>0) {
+			return list.get(0);
+		}
+		return null;
+	}
+
 	class RowCallbackHandlerTeacher implements RowCallbackHandler{
 
 		private List<Teacher> list;
@@ -152,9 +172,22 @@ public class TeacherDao extends BaseCrud<Teacher> implements LoginService<Teache
 
 	@Override
 	public List<Teacher> findByLimit(Integer page, Integer pageSize) {
-		String sql = "SELECT * FROM tb_teacher ORDER BY id ASC LIMIT ?,?";
+		return findByLimit(page,pageSize,null);
+	}
+	
+	public List<Teacher> findByLimit(Integer page,Integer pageSize,String search) {
+		StringBuilder sb = new StringBuilder("SELECT * FROM tb_teacher WHERE 1=1");
+		Object[] obj = null;
+		if(search!=null) {
+			search = EncodingTool.encodeStr(search);
+			sb.append(" and name like ?");
+			obj = new Object[]{"%"+search+"%",page,pageSize};
+		}else {
+			obj = new Object[]{page,pageSize};
+		}
+		sb.append(" ORDER BY id ASC LIMIT ?,?");
 		List<Teacher> list = new ArrayList<Teacher>();
-		jdbcTemplate.query(sql, new Object[]{page,pageSize},new RowCallbackHandlerTeacher(list));
+		jdbcTemplate.query(sb.toString(), obj,new RowCallbackHandlerTeacher(list));
 		return list;
 	}
 

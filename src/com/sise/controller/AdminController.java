@@ -1,6 +1,8 @@
 package com.sise.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -8,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.sise.dao.AdminDao;
 import com.sise.dao.GradeDao;
@@ -43,7 +47,10 @@ public class AdminController {
 		mav.setViewName("page/index");
 		return mav;
 	}
-	
+	/**
+	 * 教师跳转
+	 * @return
+	 */
 	@RequestMapping("/goTea")
 	public ModelAndView goTea() {
 		ModelAndView mav = new ModelAndView();
@@ -53,6 +60,10 @@ public class AdminController {
 		mav.setViewName("page/index");
 		return mav;
 	}
+	/**
+	 * 学生跳转
+	 * @return
+	 */
 	@RequestMapping("/goClass")
 	public ModelAndView goClass() {
 		ModelAndView mav = new ModelAndView();
@@ -62,7 +73,11 @@ public class AdminController {
 		mav.setViewName("page/index");
 		return mav;
 	}
-	
+	/**
+	 * 学生编辑
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("/goEditUser")
 	public ModelAndView goEditUser(@RequestParam(value="id",required=false)Integer id) {
 		ModelAndView mav = new ModelAndView();
@@ -85,8 +100,86 @@ public class AdminController {
 		mav.setViewName("page/index");
 		return mav;
 	}
+	/**
+	 * 学生删除
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/goDelUser")
+	@ResponseBody
+	public String goDelUser(@RequestParam(value="id",required=false)Integer id) {
+		Map<String, Object> json = new HashMap<String, Object>();
+		if(id!=null) {
+			Student cls = new Student();
+			cls.setId(id);
+			try {
+				Student result = studentDao.findById(cls);
+				studentDao.delete(result);
+				json.put("success", true);
+				json.put("data", "");
+			} catch (Exception e) {
+				json.put("success", false);
+				e.printStackTrace();
+			}
+		}
+		return JSON.toJSONString(json);
+	}
+	/**
+	 * 教师删除
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/goDelTea")
+	@ResponseBody
+	public String goDelTea(@RequestParam(value="id",required=false)String id) {
+		Map<String, Object> json = new HashMap<String, Object>();
+		if(id!=null) {
+			Teacher cls = new Teacher();
+			cls.setCode(id);
+			try {
+				Teacher result = teacherDao.findById(cls);
+				teacherDao.delete(result);
+				json.put("success", true);
+				json.put("data", "");
+			} catch (Exception e) {
+				json.put("success", false);
+				e.printStackTrace();
+			}
+		}
+		return JSON.toJSONString(json);
+	}
 	
-	
+	/**
+	 * 班级删除
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/goDelClass")
+	@ResponseBody
+	public String goDelClass(@RequestParam(value="id",required=false)Integer id) {
+		Map<String, Object> json = new HashMap<String, Object>();
+		if(id!=null) {
+			Grade cls = new Grade();
+			cls.setId(id);
+			try {
+				Grade result = gradeDao.findById(cls);
+				gradeDao.delete(result);
+				json.put("success", true);
+				json.put("data", "");
+			} catch (Exception e) {
+				json.put("success", false);
+				e.printStackTrace();
+			}
+		}
+		return JSON.toJSONString(json);
+	}
+	/**
+	 * 学生列表显示
+	 * @param offset
+	 * @param limit
+	 * @param search
+	 * @param response
+	 */
 	@RequestMapping("/getStuList")
 	public void getStuList(@RequestParam(value="offset")Integer offset
 			,@RequestParam(value="limit")Integer limit,@RequestParam(value="search",required=false)String search
@@ -106,13 +199,18 @@ public class AdminController {
 	}
 	
 	
-	
+	/**
+	 * 教师列表显示
+	 * @param offset
+	 * @param limit
+	 * @param response
+	 */
 	@RequestMapping("/getTeaList")
 	public void getTeaList(@RequestParam(value="offset")Integer offset
-			,@RequestParam(value="limit")Integer limit
+			,@RequestParam(value="limit")Integer limit,@RequestParam(value="search",required=false)String search
 			,HttpServletResponse response) {
 			try {
-				List<Teacher> list = teacherDao.findByLimit(offset, limit);
+				List<Teacher> list = teacherDao.findByLimit(offset, limit,search);
 				Integer count = teacherDao.count();
 				JSONObject obj = new JSONObject();
 				obj.put("total", count);
@@ -124,7 +222,12 @@ public class AdminController {
 			}
 		
 	}
-	
+	/**
+	 * admin 用户列表显示
+	 * @param offset
+	 * @param limit
+	 * @param response
+	 */
 	@RequestMapping("/getAdminList")
 	public void getAdminList(@RequestParam(value="offset")Integer offset
 			,@RequestParam(value="limit")Integer limit
@@ -143,18 +246,29 @@ public class AdminController {
 		
 	}
 	
+	/**
+	 * 学生列表显示
+	 * @param offset
+	 * @param limit
+	 * @param response
+	 */
 	@RequestMapping("/getClassList")
 	public void getClassList(@RequestParam(value="offset")Integer offset
-			,@RequestParam(value="limit")Integer limit
+			,@RequestParam(value="limit")Integer limit,@RequestParam(value="search",required=false)String search
 			,HttpServletResponse response) {
 			try {
-				List<Grade> list = gradeDao.findByLimit(offset, limit);
+				List<Grade> list = gradeDao.findByLimit(offset, limit,search);
 				for(int i=0;i<list.size();i++) {
 					int tmpId = list.get(i).getTeacher();
 					Teacher tmpT = new Teacher();
 					tmpT.setId(tmpId);;
-					tmpT = teacherDao.findById(tmpT);
-					list.get(i).setTeacherName(tmpT.getName());
+					tmpT = teacherDao.findById(tmpId);
+					if(tmpT==null) {
+						list.get(i).setTeacherName("");
+					}else {
+						list.get(i).setTeacherName(tmpT.getName());
+					}
+					
 				}
 				Integer count = gradeDao.count();
 				JSONObject obj = new JSONObject();
@@ -168,6 +282,7 @@ public class AdminController {
 		
 	}
 	/**
+	 * 保存学生
 	 */
 	@RequestMapping("/saveStu")
 	public ModelAndView saveStu() {

@@ -12,8 +12,11 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Repository;
 
 import com.sise.dao.AdminDao.RowCallbackHandlerAdmin;
+import com.sise.dao.StudentDao.RowCallbackHandlerStudent;
 import com.sise.model.Admin;
 import com.sise.model.Grade;
+import com.sise.model.Student;
+import com.sise.utils.EncodingTool;
 
 @Repository("gradeDao")
 public class GradeDao extends BaseCrud<Grade>{
@@ -90,12 +93,38 @@ public class GradeDao extends BaseCrud<Grade>{
 		}
 		return null;
 	}
+	
+	public Grade findByName(Grade cls) throws Exception {
+		String sql = "SELECT * FROM tb_class where gradeName=?";
+		List<Grade> list = new ArrayList<Grade>();
+		jdbcTemplate.query(sql, new Object[]{cls.getGradeName()},new RowCallbackHandlerGrade(list));
+		if(list.size()>0) {
+			return list.get(0);
+		}
+		return null;
+	}
 
 	@Override
 	public List<Grade> findByLimit(Integer page, Integer pageSize) {
 		String sql = "SELECT * FROM tb_class ORDER BY id ASC LIMIT ?,?";
 		List<Grade> list = new ArrayList<Grade>();
 		jdbcTemplate.query(sql, new Object[]{page,pageSize},new RowCallbackHandlerGrade(list));
+		return list;
+	}
+	
+	public List<Grade> findByLimit(Integer page,Integer pageSize,String search) {
+		StringBuilder sb = new StringBuilder("SELECT * FROM tb_class WHERE 1=1");
+		Object[] obj = null;
+		if(search!=null) {
+			search = EncodingTool.encodeStr(search);
+			sb.append(" and gradeName like ?");
+			obj = new Object[]{"%"+search+"%",page,pageSize};
+		}else {
+			obj = new Object[]{page,pageSize};
+		}
+		sb.append(" ORDER BY id ASC LIMIT ?,?");
+		List<Grade> list = new ArrayList<Grade>();
+		jdbcTemplate.query(sb.toString(), obj,new RowCallbackHandlerGrade(list));
 		return list;
 	}
 

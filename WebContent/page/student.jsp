@@ -16,9 +16,33 @@ function codeFormatter(code) {
 }
 
 function opFormatter(code) {
-	return '<a href="${pageContext.request.contextPath}/admin/goEditUser.do?id=' + code + '">删除 </a>&nbsp;'+
+	return '<a href="#" class="stu_link" onclick="showStuModal(this);" data-stu="'+code+'">删除 </a>'+
 	'<a href="${pageContext.request.contextPath}/admin/goEditUser.do?id=' + code + '">修改 </a>';
 }
+function showStuModal(e) {
+	var id = $(e).data('stu');
+	$("#stuModal").attr("stuId",id);
+	$("#stuModal").modal();
+}
+/**
+ * 删除学生
+ */
+function delStu() {
+	var id = $("#stuModal").attr("stuId");
+	console.log(id);
+	$.get("${pageContext.request.contextPath}/admin/goDelUser.do",{'id':id},function(){
+		$("#stuModal").modal('hide');
+		refreshData();
+	});
+}
+/**
+ * 刷新表格数据
+ */
+function refreshData() {
+	$("#stuTable").bootstrapTable('refresh',{url:'getStuList.do'});
+}
+
+
 </script>
 <div class="well" style="height: 100%">
     <table data-toggle="table"
@@ -27,7 +51,7 @@ function opFormatter(code) {
        data-side-pagination="server"
        data-page-list="[10,20, 50, 100, 200]"
        data-search="true"
-       data-height="900">
+       data-height="900" id="stuTable">
     <thead>
     <tr>
         <th data-field="state" data-checkbox="true"></th>
@@ -46,3 +70,28 @@ function opFormatter(code) {
 	</thead>
 </table>
 </div>
+<!-- 模态框 -->
+<div class="modal fade" id="stuModal" tabindex="-1" role="dialog" stuId="">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        
+      </div>
+      <div class="modal-body">
+        <h4 class="modal-title">确认删除该学生 ？</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" onclick="delStu()">确定</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script type="text/javascript">
+$(function() {
+	$(".stu_link").click(function(){
+		alert("ss");
+	});	
+});
+</script>

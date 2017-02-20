@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.sise.model.Grade;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/applicationContext.xml")
 public class GradeDaoTest {
@@ -26,10 +28,15 @@ public class GradeDaoTest {
 	}
 
 	@Test
-	public void testSaveGrade() {
-		String[] cls = new String[]{"web开发","物联网开发","计算机科学与技术"};
-		for(String s : cls) {
-			
+	public void testSaveGrade() throws Exception {
+		String[] cls1 = new String[]{"web开发","物联网开发","计算机科学与技术"};
+		for(String s : cls1) {
+			for(int i=1;i<6;i++) {
+				Grade cls = new Grade();
+				cls.setGrade("15级");
+				cls.setGradeName(s+"("+i+")"+"班");
+				gradeDao.save(cls);
+			}
 		}
 	}
 

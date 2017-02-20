@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -57,6 +58,38 @@ public class ClassController {
 		}
 		
 		return JSON.toJSONString(map);
+	}
+	
+	@RequestMapping("/goEditView")
+	public ModelAndView goEditView(@RequestParam(value="id",required=false)Integer id) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		Grade cls = new Grade();
+		if(id!=null) {
+			cls.setId(id);
+			Grade result = gradeDao.findById(cls);
+			mav.addObject("grade",cls);
+		}
+		mav.addObject("mainPage","addClass.jsp");
+		mav.setViewName("page/index");
+		return mav;
+	}
+	
+	@RequestMapping("/saveCls")
+	@ResponseBody
+	public String saveClass(@ModelAttribute(value="cls")Grade cls) throws Exception {
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		Grade _grade = gradeDao.findByName(cls);
+		if(_grade!=null) {
+			result.put("success", false);
+			result.put("data", "ÐÂ½¨Ê§°Ü");
+			return JSON.toJSONString(result);
+		}
+		
+		gradeDao.save(cls);
+		result.put("success", true);
+		result.put("data", "");
+		return JSON.toJSONString(result);
 	}
 	
 }
