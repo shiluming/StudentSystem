@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/stu")
-public class StudentController {
+@RequestMapping("/tea")
+public class TeacherController {
 
 	
 	@RequestMapping("/goSearch")
@@ -38,15 +38,15 @@ public class StudentController {
 		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("page/index");
-		mav.addObject("mainPage","personal.jsp");
+		mav.addObject("mainPage","personal_teacher.jsp");
 		return mav;
 	}
 	
-	@RequestMapping("/requestDeal")
+	@RequestMapping("/doAudit")
 	public ModelAndView requestDeal() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("page/index");
-		mav.addObject("mainPage","requestDeal.jsp");
+		mav.addObject("mainPage","doAudit.jsp");
 		return mav;
 	}
 	
@@ -54,11 +54,11 @@ public class StudentController {
 	 * 未通过申请信息管理
 	 * @return
 	 */
-	@RequestMapping("/noPass")
-	public ModelAndView noPass() {
+	@RequestMapping("/noPassList")
+	public ModelAndView noPassList() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("page/index");
-		mav.addObject("mainPage","noPass.jsp");
+		mav.addObject("mainPage","doAudit_noPass.jsp");
 		return mav;
 	}
 	
