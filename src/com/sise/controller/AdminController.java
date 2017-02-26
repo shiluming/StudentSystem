@@ -16,10 +16,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.sise.dao.AdminDao;
+import com.sise.dao.AuditItemDao;
 import com.sise.dao.GradeDao;
 import com.sise.dao.StudentDao;
 import com.sise.dao.TeacherDao;
 import com.sise.model.Admin;
+import com.sise.model.AuditItem;
 import com.sise.model.Grade;
 import com.sise.model.Student;
 import com.sise.model.Teacher;
@@ -37,6 +39,9 @@ public class AdminController {
 	private AdminDao adminDao;
 	@Autowired
 	private GradeDao gradeDao;
+	
+	@Autowired
+	private AuditItemDao auditItemDao;
 	
 	@RequestMapping("/goStu")
 	public ModelAndView goStu() {
@@ -326,6 +331,28 @@ public class AdminController {
 		
 		mav.setViewName("page/index");
 		return mav;
+	}
+	
+	/**
+	 * Ìí¼Ó½±Ïî
+	 * @return
+	 */
+	@RequestMapping("/addItem")
+	public ModelAndView addItem() {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("mainPage","addItem.jsp");
+		mav.setViewName("page/index");
+		return mav;
+	}
+	
+	@RequestMapping("/saveItem")
+	@ResponseBody
+	public String saveItem(AuditItem item ) throws Exception {
+		Map<String, Object> result = new HashMap<String, Object>();
+		auditItemDao.save(item);
+		result.put("success", true);
+		result.put("data", "");
+		return JSON.toJSONString(result);
 	}
 	
 }

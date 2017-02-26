@@ -9,10 +9,12 @@
   </div>
 </div>
 <script type="text/javascript">
-function codeFormatter(code) {
-	return '<a href="${pageContext.request.contextPath}/admin/goEditUser.do?id=' + code + '">' + code + '</a>';
+function codeFormatter(code,row,index) {
+	return '<a href="${pageContext.request.contextPath}/admin/goEditUser.do?id=' + code + '">' + row.stu.code + '</a>';
 }
-
+function imgFormatter(img,row,index) {
+	return '<a href="#">' + img + '</a>';
+}
 function opFormatter(code) {
 	return '<a href="#" class="stu_link" onclick="showStuModal(this);" data-stu="'+code+'">删除 </a>'+
 	'<a href="${pageContext.request.contextPath}/admin/goEditUser.do?id=' + code + '">修改 </a>';
@@ -39,14 +41,26 @@ function delStu() {
 function refreshData() {
 	$("#stuTable").bootstrapTable('refresh',{url:'getStuList.do'});
 }
-
+function queryParams(params) {
+    var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的  
+      limit: params.limit,   //页面大小  
+      pageNumber: params.pageNumber,  //页码  
+      sort: params.sort,  //排序列名 
+      offset:params.offset,
+      search:params.search,
+      status:'0',
+      sortOrder: params.order//排位命令（desc，asc）  
+    };  
+    return temp;  
+}
 
 </script>
 <div class="well" style="height: 100%">
     <table data-toggle="table"
-       data-url="getStuList.do"
+       data-url="${pageContext.request.contextPath}/stu/getAudit.do"
        data-pagination="true"
        data-side-pagination="server"
+       data-query-params="queryParams"
        data-page-list="[10,20, 50, 100, 200]"
        data-search="true"
        data-height="900" id="stuTable">
@@ -54,12 +68,12 @@ function refreshData() {
     <tr>
         <th data-field="state" data-checkbox="true"></th>
         <th data-field="code" data-formatter="codeFormatter" data-align="right" data-sortable="true" >学号</th>
-        <th data-field="name" data-align="center" data-sortable="true">学生姓名</th>
-        <th data-field="masterTeacher" data-align="center" data-sortable="true">评审类型</th>
-        <th data-field="sex" data-align="center" data-sortable="true">级别</th>
-        <th data-field="age" data-align="center" data-sortable="true">奖励名称</th>
-        <th data-field="address" data-align="center" data-sortable="true">奖励图片</th>
-        <th data-field="joinTime" data-align="center" data-sortable="true">申请时间</th>
+        <th data-field="stu.name" data-align="center" data-sortable="true">学生姓名</th>
+        <th data-field="type" data-align="center" data-sortable="true">评审类型</th>
+        <th data-field="name" data-align="center" data-sortable="true">奖励名称</th>
+        <th data-field="img" data-align="center" data-formatter="imgFormatter" data-sortable="true">奖励图片</th>
+        <th data-field="requestTime" data-align="center" data-sortable="true">申请时间</th>
+        <th data-field="status" data-align="center" data-sortable="true">结果</th>
 	</tr>
 	</thead>
 </table>

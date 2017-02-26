@@ -17,7 +17,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.sise.constant.APPCONFIG;
 import com.sise.constant.UserType;
+import com.sise.dao.AuditDao;
+import com.sise.dao.AuditItemDao;
 import com.sise.dao.TeacherDao;
+import com.sise.model.AuditVO;
 import com.sise.model.Teacher;
 
 @Controller
@@ -27,6 +30,9 @@ public class TeacherController {
 	
 	@Autowired
 	private TeacherDao teacherDao;
+	
+	@Autowired
+	private AuditDao auditDao;
 	
 	@RequestMapping("/goSearch")
 	public ModelAndView goSearch() {
@@ -51,10 +57,11 @@ public class TeacherController {
 	 * @return
 	 */
 	@RequestMapping("/personal")
-	public ModelAndView personal(@RequestParam(value="id",required=false)Integer id)
+	public ModelAndView personal(@RequestParam(value="id",required=false)Integer id,HttpServletRequest request)
 	{
-		
+		Teacher tea = (Teacher) request.getSession().getAttribute("loginUser");
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("teaObj",tea);
 		mav.setViewName("page/index");
 		mav.addObject("mainPage","personal_teacher.jsp");
 		return mav;
@@ -171,5 +178,29 @@ public class TeacherController {
 		mav.addObject("mainPage","editTeacher.jsp");
 		mav.setViewName("page/index");
 		return mav;
+	}
+	
+	/**
+	 * 教师审核学生的申请
+	 * @return
+	 * @throws Exception 
+	 */
+	@ResponseBody
+	@RequestMapping("/todoAudit")
+	public String todoAudit(HttpServletRequest resquest,@RequestParam(value="id")Integer id,@RequestParam(value="type")String type) throws Exception {
+		Map<String, Object> result = new HashMap<String, Object>();
+		AuditVO cls = new AuditVO();
+		cls.setId(id);
+		cls = auditDao.findById(cls);
+		if("fail".equals(type)) {//不通过
+			cls.setStatus(APPCONFIG.AUDIT_FIAL);
+			auditDao.update(cls);
+		}else {
+			//通过
+			cls.setStatus(APPCONFIG.AUDIT_END);
+			auditDao.update(cls);
+		}
+		result.put("success", true);
+		return JSON.toJSONString(result);
 	}
 }

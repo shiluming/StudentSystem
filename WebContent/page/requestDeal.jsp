@@ -15,7 +15,17 @@
 
 <!-- 提申请审核页面 -->
 <script type="text/javascript">
-	
+	function doSubmit() {
+		console.log("doSubmit....");
+		$("#doForm").submit();
+	}
+	$(function(){
+		var flag = '${msg[success]}';
+		console.log(flag);
+		if(flag) {
+			jAlert('申请提交成功!', 'Alert Dialog');
+		}
+	});
 </script>
 <h1 class="page-title">填写审核信息面板</h1>
 
@@ -34,19 +44,19 @@
 				<div>
             
             	<div class="a" style="margin-left: 0px;margin-right: 0px">
-            		<form action="${pageContext.request.contextPath}/stu/audit.do" enctype="multipart/form-data">
+            		<form id="doForm" action="${pageContext.request.contextPath}/stu/audit.do" enctype="multipart/form-data" method="post">
             		<table style="border: 0px;">
             			<tr style="height: 60px;">
             				<td>
             					<label style="float: left" class="b" style="size: 30px"><span class="icon-user" aria-hidden="true"></span> 姓名：</label>
             				</td>
             				<td>
-            					<input style="float: left;" value="" name="name" placeholder="请输入姓名" />
+            					<input style="float: left;" value="" name="stu.name" placeholder="请输入姓名" />
             				</td>
             				<td style="margin-left: 30px;">
             					<label style="float: left" class="b" style="size: 30px"><span class="icon-phone" aria-hidden="true"></span> 电    话：</label></td>
             				<td>
-            					<input style="float: left;" placeholder="请输入电话" name="tell"/></td>
+            					<input style="float: left;" placeholder="请输入电话" name="stu.tell"/></td>
             			</tr>
             			<tr style="height: 60px;">
             				<td>
@@ -59,7 +69,7 @@
             					<label style="float:left;" class="b"><span class="icon-star"></span> 奖 项：</label>
             				</td>
             				<td>
-            					<select>
+            					<select name="name">
             						<option>sss</option>
             						<option>fff</option>
             					</select>
@@ -70,7 +80,7 @@
             					<label style="float:left;" class="b"><span class="icon-file"></span> 相关文件：</label>
             				</td>
             				<td colspan="3">
-            					<input type="file" id="textFile" class="file">
+            					<input type="file" id="file" class="file" name="file">
             				</td>
             			</tr>
             			<tr style="height: 60px;">
@@ -78,7 +88,7 @@
             					<label style="float:left;" class="b"><span class="icon-home"></span> 申请原因：</label>
             				</td>
             				<td colspan="3">
-            					<textarea rows="3" cols="6" style="width: 100%"></textarea>
+            					<textarea rows="3" cols="6" style="width: 100%" name="requestReason"></textarea>
             				</td>
             			</tr>
             			
@@ -90,8 +100,15 @@
             			</tr>
             		</table>
             		</form><!-- 表单结束 -->	
+            		
             	</div>
-            	
+            	<table>
+            		<tr style="margin-top: 40px">
+            				<td></td>
+            				<td colspan="2" style="text-align: center;"><button onclick="doSubmit()" class="btn btn-default">申请</button></td>
+            				<td></td>
+            			</tr>
+            	</table>
             	
             </div>
         </div>

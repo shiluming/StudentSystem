@@ -1,17 +1,30 @@
 package com.sise.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.jstl.core.Config;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.sise.constant.APPCONFIG;
+import com.sise.dao.AuditDao;
 import com.sise.dao.GradeDao;
 import com.sise.dao.StudentDao;
 import com.sise.dao.TeacherDao;
@@ -34,6 +47,9 @@ public class StudentController {
 	
 	@Autowired
 	private StudentDao studentDao;
+	
+	@Autowired
+	private AuditDao auditDao;
 	
 	@RequestMapping("/goSearch")
 	public ModelAndView goSearch() {
@@ -81,9 +97,46 @@ public class StudentController {
 	}
 	
 	@RequestMapping("/audit")
-	public String requestAudit(HttpServletRequest request,AuditVO auditVO) {
-		System.out.println("ss");
-		return null;
+	public ModelAndView requestAudit(@RequestParam(value="file",required=false)MultipartFile file,
+			HttpServletRequest request,AuditVO auditVO) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("page/index");
+		mav.addObject("mainPage","requestDeal.jsp");
+		Map<String, Object> map = new HashMap<String, Object>();
+		File targetFile = null;
+		//文件保存在
+		if(file.getSize()>0) {
+			String fileName = file.getOriginalFilename();
+			targetFile = new File(APPCONFIG.AWARD_IMG_PATH+fileName);
+			try {
+				file.transferTo(targetFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else {
+			map.put("success", false);
+			map.put("data", "请上传相关文件");
+			mav.addObject("msg",map);
+			return mav;
+		}
+		Student stu = (Student) request.getSession().getAttribute("loginUser");
+		auditVO.setImg(targetFile.getPath());
+		auditVO.setRequestTime(new Date());
+		auditVO.setStatus("审核中");
+		auditVO.setStu(stu);
+		auditVO.setTell(stu.getTell());
+		
+		auditVO.setType("奖励");
+		try {
+			auditDao.save(auditVO);
+			map.put("success", true);
+			map.put("data", "");
+		} catch (Exception e) {
+			map.put("success", false);
+			map.put("data", "保存失败");
+		}
+		mav.addObject("msg",map);
+		return mav;
 	}
 	
 	@RequestMapping("/requestDeal")
@@ -138,6 +191,43 @@ public class StudentController {
 					}
 				}
 				Integer count = studentDao.count();
+				JSONObject obj = new JSONObject();
+				obj.put("total", count);
+				obj.put("rows", list);
+				ResponseUtils.write(obj, response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+	}
+	
+	/**
+	 * 审核列表显示
+	 * @param offset
+	 * @param limit
+	 * @param search
+	 * @param response
+	 */
+	@RequestMapping("/getAudit")
+	public void getAudit(@RequestParam(value="offset")Integer offset
+			,@RequestParam(value="limit")Integer limit,@RequestParam(value="search",required=false)String search
+			,HttpServletResponse response,@RequestParam(value="status",required=false)String status) {
+			try {
+				if(status!=null) {
+					if(status.equals("1")) {
+						status = APPCONFIG.IN_AUDIT;
+					}else if(status.equals("0")) {
+						status = APPCONFIG.AUDIT_FIAL;
+					}
+				}
+				List<AuditVO> list = auditDao.findByLimit(offset, limit,search,status);
+				for(int i=0;i<list.size();i++) {
+					Integer stuId = list.get(i).getStuId();
+					Student tmp = studentDao.findById(stuId);
+					list.get(i).setStu(tmp);
+				}
+				Integer count = auditDao.count(status,search);
 				JSONObject obj = new JSONObject();
 				obj.put("total", count);
 				obj.put("rows", list);

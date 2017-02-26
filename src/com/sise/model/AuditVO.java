@@ -15,6 +15,16 @@ public class AuditVO {
 	private String auditer;     //评审人
 	private String requestReason;         //申请原因
 	private String auditReason;           //审核原因
+	private Integer stuId;
+	
+	
+	
+	public Integer getStuId() {
+		return stuId;
+	}
+	public void setStuId(Integer stuId) {
+		this.stuId = stuId;
+	}
 	public Integer getId() {
 		return id;
 	}

@@ -157,6 +157,15 @@ public class StudentDao extends BaseCrud<Student> implements LoginService<Studen
 		return null;
 	}
 
+	public Student findById(int cls) throws Exception {
+		String sql = "SELECT * FROM tb_student where id=?";
+		List<Student> list = new ArrayList<Student>();
+		jdbcTemplate.query(sql, new Object[]{cls},new RowCallbackHandlerStudent(list));
+		if(list.size()>0) {
+			return list.get(0);
+		}
+		return null;
+	}
 	@Override
 	public Student login(Student cls) {
 		String sql = "SELECT * FROM tb_student where code=? and password=?";

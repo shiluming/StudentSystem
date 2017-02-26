@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-<<script type="text/javascript">
+<script type="text/javascript">
 function opFormatter(id) {
 	return '<a href="#" onclick="showClassModal(this);" data-class="'+id+'">删除 </a>&nbsp;'+
 	'<a href="${pageContext.request.contextPath}/cls/goEditView.do?id='+id+'">修改 </a>';
