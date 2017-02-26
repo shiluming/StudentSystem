@@ -9,8 +9,10 @@ import javax.annotation.Resource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
+import org.springframework.jdbc.core.RowCountCallbackHandler;
 import org.springframework.stereotype.Repository;
 
+import com.sise.constant.APPCONFIG;
 import com.sise.dao.StudentDao.RowCallbackHandlerStudent;
 import com.sise.model.Student;
 import com.sise.model.Teacher;
@@ -50,6 +52,15 @@ public class TeacherDao extends BaseCrud<Teacher> implements LoginService<Teache
 	public void delete(Teacher cls) throws Exception {
 		String sql = "DELETE FROM tb_teacher where id=?";
 		jdbcTemplate.update(sql,new Object[]{cls.getId()});
+	}
+	
+	/**
+	 * 根据code删除教师信息
+	 * @param code
+	 */
+	public void deleteByCode(String code) {
+		String sql = "DELETE FROM tb_teacher where code=?";
+		jdbcTemplate.update(sql,new Object[]{code});
 	}
 
 	@Override
@@ -196,4 +207,26 @@ public class TeacherDao extends BaseCrud<Teacher> implements LoginService<Teache
 		String sql = "SELECT COUNT(*) FROM tb_teacher";
 		return jdbcTemplate.queryForObject(sql, Integer.class);
 	}
+	
+	/**
+	 * 自动生成  工号 策略
+	 * @return
+	 */
+	public Integer genernatorId() {
+		String sql = "SELECT MAX(code) FROM tb_teacher";
+		String code= jdbcTemplate.queryForObject(sql, String.class);
+		if(code == null || code.isEmpty()) {
+			code = APPCONFIG.TEA_SUFFIX+"100000";
+		}
+		int id = Integer.parseInt(code.substring(1, code.length()));
+		return id+1;
+	}
+	
+//	public static void main(String[] args) {
+//		String src1 ="A10000098";
+//		String src2 = null;
+//		String tmp = src1.substring(1,src2.length());
+//		int target1 = Integer.parseInt(tmp);
+//		System.out.println(target1);
+//	}
 }

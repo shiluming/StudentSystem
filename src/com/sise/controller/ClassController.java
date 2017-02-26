@@ -67,7 +67,7 @@ public class ClassController {
 		if(id!=null) {
 			cls.setId(id);
 			Grade result = gradeDao.findById(cls);
-			mav.addObject("grade",cls);
+			mav.addObject("grade",result);
 		}
 		mav.addObject("mainPage","addClass.jsp");
 		mav.setViewName("page/index");
@@ -89,6 +89,15 @@ public class ClassController {
 		gradeDao.save(cls);
 		result.put("success", true);
 		result.put("data", "");
+		return JSON.toJSONString(result);
+	}
+	
+	@RequestMapping("/getgradeById")
+	@ResponseBody
+	public String getGradeById(@RequestParam(value="id")Integer id) throws Exception {
+		Grade cls = new Grade();
+		cls.setId(id);
+		Grade result = gradeDao.findById(cls);
 		return JSON.toJSONString(result);
 	}
 	

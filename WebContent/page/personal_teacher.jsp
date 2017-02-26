@@ -1,13 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
   <!-- 教师个人信息页面 -->
-   <style>
-  
-<!--
-	.a {
-		background: red;
-	}
--->
+<style>
+.b {
+	font-size:25px;
+	margin-left: 30px;
+}
 </style>
 <script type="text/javascript">
 
@@ -20,13 +18,62 @@
         <div id="chart-container" class="block-body collapse in">
             <div id="line-chart">
             	<div class="a" style="margin-left: 0px;margin-right: 0px">
-            		<label>姓名：</label>
-            		
+            	<form action="${pageContext.request.contextPath}/tea/saveTeacher.do">
+            		<table style="border: 0px;">
+            			<tr style="height: 60px;">
+            				<td>
+            					<label style="float: left" class="b" style="size: 30px"><span class="icon-user" aria-hidden="true"></span> 姓名：</label>
+            				</td>
+            				<td>
+            					<input style="float: left;" name="name" value="${teaObj.name}" readonly="readonly" />
+            				</td>
+            				<td style="margin-left: 30px;">
+            					<label style="float: left" class="b" style="size: 30px"><span class="icon-phone" aria-hidden="true"></span> 电    话：</label></td>
+            				<td>
+            					<input style="float: left;" name="tell" value="${teaObj.tell}" placeholder="请输入电话" /></td>
+            			</tr>
+            			<tr style="height: 60px;">
+            				<td>
+            					<label style="float:left;" class="b"><span class="icon-bookmark"></span> Email：</label>
+            				</td>
+            				<td>
+            					<input style="float: left;" name="email" value="${teaObj.email}" placeholder="请输入Email" />
+            				</td>
+            				<td>
+            					<label style="float:left;" class="b"><span class="icon-qrcode"></span> 年 龄：</label>
+            				</td>
+            				<td>
+            					<input style="float: left;" name="age" value="${teaObj.age}" placeholder="请输入年龄"/>
+            				</td>
+            			</tr>
+            			<tr style="height: 60px;">
+            				
+            				<td>
+            					<label style="float:left;" class="b"><span class="icon-star"></span> 性 别：</label>
+            				</td>
+            				<td>
+            					<select name="sexual">
+            						<option>男</option>
+            						<option>女</option>
+            					</select>
+            				</td>
+            			</tr>
+            			<tr style="height: 60px;">
+            				<td>
+            					<label style="float:left;" class="b"><span class="icon-home"></span> 地址：</label>
+            				</td>
+            				<td colspan="3">
+            					<textarea rows="3" cols="6" style="width: 100%" placeholder="请输入地址" name="address">${teaObj.address}</textarea>
+            				</td>
+            			</tr>
+            			<tr>
+            				<td></td>
+            			</tr>
+            		</table>
+            		</form><!-- 表单结束 -->
             	</div>
-            	
-            	
             </div>
-        </div>
+        </div><!-- 标签<p> 下面的div结束 -->
     </div>
 </div>
 

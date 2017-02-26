@@ -18,6 +18,9 @@ public class Student {
 	private Integer grade;
 	private String status;
 	
+	private String gradeText;
+	private String masterTeacherText;
+	
 	private String privilege;
 	
 	
@@ -112,5 +115,21 @@ public class Student {
 				+ joinTime + ", masterTeacher=" + masterTeacher + ", sex=" + sex + ", age=" + age + ", address="
 				+ address + ", tell=" + tell + ", email=" + email + ", grade=" + grade + ", status=" + status + "]";
 	}
+	public String getGradeText() {
+		return gradeText;
+	}
+	public void setGradeText(String gradeText) {
+		this.gradeText = gradeText;
+	}
+	public String getMasterTeacherText() {
+		return masterTeacherText;
+	}
+	public void setMasterTeacherText(String masterTeacherText) {
+		this.masterTeacherText = masterTeacherText;
+	}
+	
+	
+	
+	
 	
 }

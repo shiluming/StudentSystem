@@ -5,24 +5,26 @@
 
 //-->
 function codeFormatter(code) {
-	return '<a href="${pageContext.request.contextPath}/admin/goEditTeacher.do?id=' + code + '">' + code + '</a>';
+	return '<a href="${pageContext.request.contextPath}/tea/goEditTeacher.do?id=' + code + '">' + code + '</a>';
 }
 function opFormatter(code) {
 	return '<a href="#" onclick="showStuModal(this);" data-tea="'+code+'">删除 </a>&nbsp;'+
-	'<a href="${pageContext.request.contextPath}/admin/goEditTeacher.do?id=' + code + '">修改 </a>';
+	'<a href="${pageContext.request.contextPath}/tea/goEditTeacher.do?id=' + code + '">修改 </a>';
 }
 function showStuModal(e) {
 	var id = $(e).data('tea');
 	$("#teaModal").attr("teaId",id);
 	$("#teaModal").modal();
 }
-/**
- * 删除学生
- */
+function registerFormatter(joinTime) {
+	console.log(joinTime);
+	return new Date(parseInt(joinTime)).toLocaleString().replace(/:\d{1,2}$/,' ');
+}
+
 function delTea() {
 	var id = $("#teaModal").attr("teaId");
 	console.log(id);
-	$.get("${pageContext.request.contextPath}/admin/goDelTea.do",{'id':id},function(){
+	$.get("${pageContext.request.contextPath}/tea/delTea.do",{'id':id},function(){
 		$("#teaModal").modal('hide');
 		refreshData();
 	});
@@ -36,7 +38,7 @@ function refreshData() {
 </script>
 <h1 class="page-title">教师列表</h1>
 <div class="btn-toolbar">
-    <button class="btn btn-primary"><i class="icon-plus"></i>老师添加</button>
+    <a class="btn btn-primary" href="${pageContext.request.contextPath}/tea/addTeacher.do"><i class="icon-plus"></i>老师添加</a>
     <!-- 
     <button class="btn">Import</button>
     <button class="btn">Export</button>
@@ -62,9 +64,8 @@ function refreshData() {
         <th data-field="age" data-align="center" data-sortable="true">年龄</th>
         <th data-field="address" data-align="center" data-sortable="true">住址</th>
         <th data-field="tell" data-align="center" data-sortable="true">电话</th>
-        <th data-field="joinTime" data-align="center" data-sortable="true">入职时间</th>
+        <th data-field="joinTime" data-align="center" data-formatter="registerFormatter" data-sortable="true">入职时间</th>
         <th data-field="email" data-align="center" data-sortable="true">email</th>
-        <th data-field="grade" data-align="center" data-sortable="true">年级</th>
         <th data-field="code" data-align="center" data-formatter="opFormatter" data-sortable="true">操作</th>
 	</tr>
 	</thead>

@@ -15,8 +15,9 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/page/stylesheets/theme.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/page/lib/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/page/lib/bootstrap/css/bootstrap-table.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/page/lib/jquery.alerts-1.1/jquery.alerts.css">
     <script src="${pageContext.request.contextPath}/page/lib/jquery-1.8.1.min.js" type="text/javascript"></script>
-
+	<script type="text/javascript" src="${pageContext.request.contextPath}/page/lib/jquery.alerts-1.1/jquery.alerts.js"></script>
     <!-- Demo page code -->
 
     <style type="text/css">

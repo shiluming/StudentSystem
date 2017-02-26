@@ -9,11 +9,9 @@
                     <li ><a href="${pageContext.request.contextPath}/admin/goStu.do">学生管理</a></li>
                     <li ><a href="${pageContext.request.contextPath}/admin/goTea.do">教师管理</a></li>
                     <li ><a href="${pageContext.request.contextPath}/admin/goClass.do">班级管理</a></li>
+                    <li ><a href="${pageContext.request.contextPath}/stu/searchList.do">查询学生信息</a></li>
                     <li ><a href="calendar.html">权限管理</a></li>
-               		<!-- 
-                    <li ><a href="faq.html">赠送</a></li>
-                    <li ><a href="help.html">赠送</a></li>
-					 -->
+               		
                 </ul>
                 </c:if>
                 <c:if test="${loginUser.privilege=='teacher' || loginUser.privilege=='admin' }">

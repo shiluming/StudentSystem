@@ -183,10 +183,34 @@ public class AdminController {
 	@RequestMapping("/getStuList")
 	public void getStuList(@RequestParam(value="offset")Integer offset
 			,@RequestParam(value="limit")Integer limit,@RequestParam(value="search",required=false)String search
-			,HttpServletResponse response) {
+			,HttpServletResponse response,@RequestParam(value="classId",required=false)Integer classId) {
 			try {
 				List<Student> list = studentDao.findByLimit(offset, limit,search);
+				if(classId!=null) {
+					list = studentDao.findByLimit(offset, limit, search, classId);
+				}
+				//为了填充年级和班级,班主任信息所做的
+				for(int i=0;i<list.size();i++) {
+					int masterId = list.get(i).getMasterTeacher();
+					Teacher tcls = new Teacher();
+					tcls.setId(masterId);
+					tcls = teacherDao.findById(masterId);
+					if(tcls!=null) {
+						list.get(i).setMasterTeacherText(tcls.getName());
+					}
+					
+					int gradeId = list.get(i).getGrade();
+					Grade grcls = new Grade();
+					grcls.setId(gradeId);
+					grcls = gradeDao.findById(grcls);
+					if(grcls!=null) {
+						list.get(i).setGradeText(grcls.getGrade()+"/"+grcls.getGradeName());
+					}
+				}
 				Integer count = studentDao.count();
+				if(classId!=null || search!=null) {
+					count=studentDao.count(search,classId);
+				}
 				JSONObject obj = new JSONObject();
 				obj.put("total", count);
 				obj.put("rows", list);

@@ -6,6 +6,10 @@
 		background: red;
 	}
 -->
+.b {
+	font-size:25px;
+	margin-left: 30px;
+}
 </style>
 <script type="text/javascript">
 
@@ -17,8 +21,44 @@
         <p class="block-heading" data-toggle="collapse" data-target="#chart-container">个人详细信息</p>
         <div id="chart-container" class="block-body collapse in">
             <div id="line-chart">
-            	<div class="a" style="margin-left: 0px;margin-right: 0px">
-            		<label>姓名：</label>
+            	<div class="" style="margin-left: 0px;margin-right: 0px">
+            		<table style="border: 0px;">
+            			<tr style="height: 60px;">
+            				<td>
+            					<label style="float: left" class="b" style="size: 30px"><span class="icon-user" aria-hidden="true"></span> 姓名：</label>
+            				</td>
+            				<td>
+            					<input style="float: left;" value="${loginUser.name}" placeholder="请输入姓名" />
+            				</td>
+            				<td style="margin-left: 30px;">
+            					<label style="float: left" class="b" style="size: 30px"><span class="icon-phone" aria-hidden="true"></span> 电    话：</label></td>
+            				<td>
+            					<input style="float: left;" value="${loginUser.tell }" placeholder="请输入电话" /></td>
+            			</tr>
+            			<tr style="height: 60px;">
+            				<td>
+            					<label style="float:left;" class="b"><span class="icon-briefcase"></span> 年级：</label>
+            				</td>
+            				<td>
+            					<input style="float: left;" value="${stuGrade.gradeName }" />
+            				</td>
+            				<td>
+            					<label style="float:left;" class="b"><span class="icon-star"></span> 入学时间：</label>
+            				</td>
+            				<td>
+            					<input style="float: left;" value="${loginUser.joinTime }" />
+            				</td>
+            			</tr>
+            			<tr style="height: 60px;">
+            				<td>
+            					<label style="float:left;" class="b"><span class="icon-home"></span> 地址：</label>
+            				</td>
+            				<td colspan="3">
+            					<textarea rows="3" cols="6" style="width: 100%">${loginUser.address }</textarea>
+            				</td>
+            			</tr>
+            		</table>
+            		
             		
             	</div>
             	
@@ -35,41 +75,14 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Username</th>
+                  <th>奖励名称</th>
+                  <th>奖励时间</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>Mark</td>
                   <td>Tompson</td>
-                  <td>the_mark7</td>
-                </tr>
-                <tr>
-                  <td>Ashley</td>
-                  <td>Jacobs</td>
-                  <td>ash11927</td>
-                </tr>
-                <tr>
-                  <td>Audrey</td>
-                  <td>Ann</td>
-                  <td>audann84</td>
-                </tr>
-                <tr>
-                  <td>John</td>
-                  <td>Robinson</td>
-                  <td>jr5527</td>
-                </tr>
-                <tr>
-                  <td>Aaron</td>
-                  <td>Butler</td>
-                  <td>aaron_butler</td>
-                </tr>
-                <tr>
-                  <td>Chris</td>
-                  <td>Albert</td>
-                  <td>cab79</td>
                 </tr>
               </tbody>
             </table>
@@ -79,7 +92,7 @@
     <div class="block span6">
         <div class="block-heading" data-toggle="collapse" data-target="#widget1container">班主任信息 </div>
         <div id="widget1container" class="block-body collapse in">
-            <h2>Using Ruby?</h2>
+            <h2>${stuTeacher.name}</h2>
             <p>This template was developed with <a href="http://middlemanapp.com/" target="_blank">Middleman</a> and includes .erb layouts and views.</p>
             <p>All of the views you see here (sign in, sign up, users, etc) are already split up so you don't have to waste your time doing it yourself!</p>
             <p>The layout.erb file includes the header, footer, and side navigation and all of the views are broken out into their own files.</p>
@@ -97,13 +110,13 @@
               <tbody>
                   <tr>
                       <td>
-                          <p><i class="icon-user"></i> Mark Otto</p>
+                          <p><i class="icon-user"></i> 小明</p>
                       </td>
                       <td>
-                          <p>Amount: $1,247</p>
+                          <p>13570323486</p>
                       </td>
                       <td>
-                          <p>Date: 7/19/2012</p>
+                          <p>班级: web开发一班</p>
                           <a href="#">View Transaction</a>
                       </td>
                   </tr>

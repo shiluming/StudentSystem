@@ -30,6 +30,7 @@ public class StudentDao extends BaseCrud<Student> implements LoginService<Studen
 		return jdbcTemplate.update(sql,new Object[]{cls.getCode(),cls.getPassword(),cls.getJoinTime(),cls.getName(),cls.getMasterTeacher()
 				,cls.getSex(),cls.getAge(),cls.getAddress(),cls.getTell(),cls.getEmail(),cls.getGrade(),cls.getStatus(),cls.getPrivilege()});
 	}
+	
 
 	@Override
 	public List<Student> search(Student cls) throws Exception {
@@ -188,6 +189,24 @@ public class StudentDao extends BaseCrud<Student> implements LoginService<Studen
 		jdbcTemplate.query(sb.toString(), obj,new RowCallbackHandlerStudent(list));
 		return list;
 	}
+	
+	public List<Student> findByLimit(Integer page,Integer pageSize,String search,Integer classId) {
+		StringBuilder sb = new StringBuilder("SELECT * FROM tb_student WHERE 1=1");
+		Object[] obj = null;
+		if(search!=null) {
+			search = EncodingTool.encodeStr(search);
+			sb.append(" and name like ?");
+			obj = new Object[]{"%"+search+"%",page,pageSize};
+		}else {
+			obj = new Object[]{page,pageSize};
+		}
+		sb.append(" and grade='"+classId+"'");
+		sb.append(" ORDER BY id ASC LIMIT ?,?");
+		List<Student> list = new ArrayList<Student>();
+		jdbcTemplate.query(sb.toString(), obj,new RowCallbackHandlerStudent(list));
+		return list;
+	}
+	
 
 	@Override
 	public Integer count() throws Exception {
@@ -195,5 +214,20 @@ public class StudentDao extends BaseCrud<Student> implements LoginService<Studen
 		return jdbcTemplate.queryForObject(sql, Integer.class);
 	}
 	
+	public Integer count(String paramter) {
+		String sql = "SELECT COUNT(*) FROM tb_student WHERE name like '%"+paramter+"%'";
+		return jdbcTemplate.queryForObject(sql, Integer.class);
+	}
+	public Integer count(String search,Integer classId) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT COUNT(*) FROM tb_student WHERE 1=1");
+		if(search!=null) {
+			sb.append(" and name like '%"+search+"%'");
+		}
+		if(classId!=null) {
+			sb.append(" and grade='"+classId+"'");
+		}
+		return jdbcTemplate.queryForObject(sb.toString(), Integer.class);
+	}
 
 }

@@ -42,6 +42,10 @@ function refreshData() {
 	$("#stuTable").bootstrapTable('refresh',{url:'getStuList.do'});
 }
 
+function registerFormatter(joinTime) {
+	console.log(joinTime);
+	return new Date(parseInt(joinTime)).toLocaleString().replace(/:\d{1,2}$/,' ');
+}
 
 </script>
 <div class="well" style="height: 100%">
@@ -57,14 +61,14 @@ function refreshData() {
         <th data-field="state" data-checkbox="true"></th>
         <th data-field="code" data-formatter="codeFormatter" data-align="right" data-sortable="true" >学号</th>
         <th data-field="name" data-align="center" data-sortable="true">学生姓名</th>
-        <th data-field="masterTeacher" data-align="center" data-sortable="true">班主任</th>
+        <th data-field="masterTeacherText" data-align="center" data-sortable="true">班主任</th>
         <th data-field="sex" data-align="center" data-sortable="true">性别</th>
         <th data-field="age" data-align="center" data-sortable="true">年龄</th>
         <th data-field="address" data-align="center" data-sortable="true">住址</th>
         <th data-field="tell" data-align="center" data-sortable="true">电话</th>
-        <th data-field="joinTime" data-align="center" data-sortable="true">注册时间</th>
+        <th data-field="joinTime" data-align="center" data-formatter="registerFormatter" data-sortable="true">注册时间</th>
         <th data-field="email" data-align="center" data-sortable="true">email</th>
-        <th data-field="grade" data-align="center" data-sortable="true">年级</th>
+        <th data-field="gradeText" data-align="center" data-sortable="true">年级/班级</th>
         <th data-field="code" data-align="center" data-formatter="opFormatter" data-sortable="true">操作</th>
 	</tr>
 	</thead>

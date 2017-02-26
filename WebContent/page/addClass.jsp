@@ -15,7 +15,7 @@
 	<div class="alert alert-block hide" id="warning-block">
     <button type="button" class="close" onclick="$('#warning-block').hide();">&times;</button>
     <h4>成功!</h4> 新建班级...
-</div>
+	</div>
 <div>
 <div class="alert alert-block hide" id="error-block">
     <button type="button" class="close" onclick="$('#error-block').hide();">&times;</button>
@@ -28,9 +28,9 @@
       <div class="tab-pane active in" id="home">
     <form id="tab" action="" method="post" id='form001'>
         <label>年级</label>
-        <input type="text" value="${stu.name}" name="grade" class="input-xlarge">
+        <input type="text" value="${grade.grade}" name="grade" class="input-xlarge">
         <label>班级名称</label>
-        <input type="text" value="${stu.code}" name="gradeName" class="input-xlarge">
+        <input type="text" value="${grade.gradeName}" name="gradeName" class="input-xlarge">
         <label>班主任</label>
         	<select name="gradeName" id="teaName" class="input-xlarge">
     		</select>
@@ -51,9 +51,7 @@
 
 <script type="text/javascript">
 
-$('#datetimepicker').datetimepicker({
-    format: 'yyyy-mm-dd hh:ii'
-});
+
 
 function saveClass() {
 	var grade = $("input[name='grade']").val();
@@ -83,6 +81,11 @@ function clearValue() {
 }
 $(function() {
 	init();
+	
+	var grgg = '${grade.teacherName}';
+	if(grgg!=null) {
+		$("#teaName").val(grgg);
+	}
 });
 
 function init() {
