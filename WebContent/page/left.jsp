@@ -30,6 +30,7 @@
                     <li ><a href="${pageContext.request.contextPath}/stu/personal.do">个人信息管理</a></li>
                     <li ><a href="${pageContext.request.contextPath}/stu/searchList.do">查询学生信息</a></li>
                     <li ><a href="${pageContext.request.contextPath}/stu/requestDeal.do">申请评审</a></li>
+                    <li ><a href="${pageContext.request.contextPath}/admin/goEditUser.do?id=${loginUser.id}">修改学生信息</a></li>
                     <li ><a href="${pageContext.request.contextPath}/stu/noPass.do">未通过评审信息管理</a></li>
                 </ul>
 				</c:if>

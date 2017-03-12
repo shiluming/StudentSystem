@@ -24,14 +24,14 @@
         <label>姓名</label>
         <input type="text" value="${stu.name}" name="" class="input-xlarge">
         <label>学号</label>
-        <input type="text" value="${stu.code}" class="input-xlarge">
+        <input type="text" value="${stu.code}" disabled="disabled" class="input-xlarge">
         <label>注册时间</label>
-           <input type="text" value="2017-01-01 10:00" id="datetimepicker" class="input-xlarge">
+           <input type="text" value="2017-01-01 10:00" disabled="disabled" id="datetimepicker" class="input-xlarge">
 
         <label>班主任</label>
-        <input type="text" value="${stu.masterTeacher}" class="input-xlarge">
+        <input type="text" disabled="disabled" value="${tea.name}" class="input-xlarge">
         <label>性别</label>
-        <input type="text" value="${stu.sex}" class="input-xlarge">
+        <input type="text" value="${stu.sex}" disabled="disabled" class="input-xlarge">
         <label>年龄</label>
         <input type="text" value="${stu.age}" class="input-xlarge">
         <label>年级</label>

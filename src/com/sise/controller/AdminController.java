@@ -92,10 +92,12 @@ public class AdminController {
 			Grade g = new Grade();
 			cls.setId(id);
 			try {
-				Student result = studentDao.findById(cls);
+				Student result = studentDao.findById(id);
 				mav.addObject("stu",result);
 				g.setId(result.getGrade());
 				Grade gres = gradeDao.findById(g);
+				Teacher tea = teacherDao.findById(result.getMasterTeacher());
+				mav.addObject("tea",tea);
 				mav.addObject("grade",gres);
 			} catch (Exception e) {
 				e.printStackTrace();
