@@ -19,7 +19,7 @@
                 <ul id="accounts-menu" class="nav nav-list collapse in">
                     <li ><a href="${pageContext.request.contextPath}/tea/personal.do">个人信息管理</a></li>
                     <li ><a href="${pageContext.request.contextPath}/admin/goStu.do">学生信息管理</a></li>
-                    <li ><a href="${pageContext.request.contextPath}/admin/goTea.do">班级信息管理</a></li>
+                    <li ><a href="${pageContext.request.contextPath}/admin/goClassDetails.do?id=${loginUser.id}">班级信息管理</a></li>
                     <li ><a href="${pageContext.request.contextPath}/tea/doAudit.do">审核信息管理</a></li>
                     <li ><a href="${pageContext.request.contextPath}/tea/noPassList.do">未通过审核信息管理</a></li>
                 </ul>

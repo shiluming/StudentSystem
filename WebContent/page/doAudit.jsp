@@ -19,7 +19,12 @@ function codeFormatter(code,row,index) {
 	return '<a href="${pageContext.request.contextPath}/admin/goEditUser.do?id=' + code + '">' + row.stu.code + '</a>';
 }
 function imgFormatter(img,row,index) {
-	return '<a href="#">' + img + '</a>';
+	var index = img.lastIndexOf('\\');
+	var file = img.substring(index+1);
+	return '<a href="${pageContext.request.contextPath}/file/download.do?fileName='+file+'">' + file + '</a>';
+}
+function dateFormatter(joinTime) {
+	return new Date(parseInt(joinTime)).toLocaleString().replace(/:\d{1,2}$/,' ');
 }
 function opFormatter(code) {
 	return '<a href="#" class="stu_link" onclick="showStuModal(this);" data-stu="'+code+'">删除 </a>'+
@@ -97,7 +102,7 @@ function queryParams(params) {
         <th data-field="type" data-align="center" data-sortable="true">评审类型</th>
         <th data-field="name" data-align="center" data-sortable="true">奖励名称</th>
         <th data-field="img" data-align="center" data-formatter="imgFormatter" data-sortable="true">奖励图片</th>
-        <th data-field="requestTime" data-align="center" data-sortable="true">申请时间</th>
+        <th data-field="requestTime" data-align="center" data-formatter="dateFormatter" data-sortable="true">申请时间</th>
         <th data-field="" data-align="center" data-formatter="auditFormatter" data-sortable="true">操作</th>
 	</tr>
 	</thead>

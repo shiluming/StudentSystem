@@ -16,7 +16,27 @@
 <!-- 提申请审核页面 -->
 <script type="text/javascript">
 	function doSubmit() {
-		console.log("doSubmit....");
+		var name = $('input[name="stu.name"]').val();
+		var tell = $('input[name="stu.tell"]').val();
+		var requestReason = $('textarea[name="requestReason"]').val();
+		var file = $("#file").val();
+		if(name == '' || name == null) {
+			jAlert('请输入学生名字', '提示');
+			return;
+		} 
+		if(tell == '' || tell == null) {
+			jAlert('请输入学生联系方式', '提示');
+			return ;
+		}
+		if(requestReason == '' || requestReason == null) {
+			jAlert('请输入申请原因', '提示');
+			return ;
+		}
+		
+		if(file == '' || file == null) {
+			jAlert('请上传申请材料', '提示');
+			return ;
+		}
 		$("#doForm").submit();
 	}
 	$(function(){
@@ -95,7 +115,6 @@
             			
             			<tr style="margin-top: 40px">
             				<td></td>
-            				<td colspan="2" style="text-align: center;"><button class="btn btn-default">申请</button></td>
             				<td></td>
             			</tr>
             		</table>

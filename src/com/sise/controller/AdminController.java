@@ -25,6 +25,7 @@ import com.sise.model.AuditItem;
 import com.sise.model.Grade;
 import com.sise.model.Student;
 import com.sise.model.Teacher;
+import com.sise.utils.EncodingTool;
 import com.sise.utils.ResponseUtils;
 
 @Controller
@@ -178,6 +179,24 @@ public class AdminController {
 		}
 		return JSON.toJSONString(json);
 	}
+	
+	/**
+	 * 班级删除
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/goClassDetails")
+	public ModelAndView goClassDetails(@RequestParam(value="id",required=false)Integer id) {
+		if(id!=null) {
+			
+		}
+		ModelAndView mav = new ModelAndView();
+		
+		mav.addObject("mainPage","TeacherClass.jsp");
+		
+		mav.setViewName("page/index");
+		return mav;
+	}
 	/**
 	 * 学生列表显示
 	 * @param offset
@@ -190,6 +209,9 @@ public class AdminController {
 			,@RequestParam(value="limit")Integer limit,@RequestParam(value="search",required=false)String search
 			,HttpServletResponse response,@RequestParam(value="classId",required=false)Integer classId) {
 			try {
+				if(search!=null) {
+					search = EncodingTool.encodeStr(search);
+				}
 				List<Student> list = studentDao.findByLimit(offset, limit,search);
 				if(classId!=null) {
 					list = studentDao.findByLimit(offset, limit, search, classId);
@@ -284,8 +306,31 @@ public class AdminController {
 	@RequestMapping("/getClassList")
 	public void getClassList(@RequestParam(value="offset")Integer offset
 			,@RequestParam(value="limit")Integer limit,@RequestParam(value="search",required=false)String search
-			,HttpServletResponse response) {
+			,HttpServletResponse response,@RequestParam(value="id",required=false)Integer id) {
 			try {
+				
+				if(id!=null) {
+					List<Grade> list = gradeDao.findByLimit(offset, limit,search,id);
+					for(int i=0;i<list.size();i++) {
+						int tmpId = list.get(i).getTeacher();
+						Teacher tmpT = new Teacher();
+						tmpT.setId(tmpId);;
+						tmpT = teacherDao.findById(tmpId);
+						if(tmpT==null) {
+							list.get(i).setTeacherName("");
+						}else {
+							list.get(i).setTeacherName(tmpT.getName());
+						}
+						
+					}
+					Integer count = gradeDao.countByTeacher(id);//(id);
+					JSONObject obj = new JSONObject();
+					obj.put("total", count);
+					obj.put("rows", list);
+					ResponseUtils.write(obj, response);
+				}
+				
+				
 				List<Grade> list = gradeDao.findByLimit(offset, limit,search);
 				for(int i=0;i<list.size();i++) {
 					int tmpId = list.get(i).getTeacher();

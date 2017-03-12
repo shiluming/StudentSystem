@@ -19,51 +19,67 @@
 <div class="row-fluid">
     <div class="block">
         <p class="block-heading" data-toggle="collapse" data-target="#chart-container">个人详细信息</p>
+        
         <div id="chart-container" class="block-body collapse in">
-            <div id="line-chart">
-            	<div class="" style="margin-left: 0px;margin-right: 0px">
-            		<table style="border: 0px;">
-            			<tr style="height: 60px;">
-            				<td>
-            					<label style="float: left" class="b" style="size: 30px"><span class="icon-user" aria-hidden="true"></span> 姓名：</label>
-            				</td>
-            				<td>
-            					<input style="float: left;" value="${loginUser.name}" placeholder="请输入姓名" />
-            				</td>
-            				<td style="margin-left: 30px;">
-            					<label style="float: left" class="b" style="size: 30px"><span class="icon-phone" aria-hidden="true"></span> 电    话：</label></td>
-            				<td>
-            					<input style="float: left;" value="${loginUser.tell }" placeholder="请输入电话" /></td>
-            			</tr>
-            			<tr style="height: 60px;">
-            				<td>
-            					<label style="float:left;" class="b"><span class="icon-briefcase"></span> 年级：</label>
-            				</td>
-            				<td>
-            					<input style="float: left;" value="${stuGrade.gradeName }" />
-            				</td>
-            				<td>
-            					<label style="float:left;" class="b"><span class="icon-star"></span> 入学时间：</label>
-            				</td>
-            				<td>
-            					<input style="float: left;" value="${loginUser.joinTime }" />
-            				</td>
-            			</tr>
-            			<tr style="height: 60px;">
-            				<td>
-            					<label style="float:left;" class="b"><span class="icon-home"></span> 地址：</label>
-            				</td>
-            				<td colspan="3">
-            					<textarea rows="3" cols="6" style="width: 100%">${loginUser.address }</textarea>
-            				</td>
-            			</tr>
-            		</table>
-            		
-            		
-            	</div>
+        	<div>
+        		<button class="btn btn-primary" >sdfsd</button>
+        	</div>
+        	<div class="media" style="margin-top: 60px">
+        		<div class="media-left media-middle" style="float: right;margin-left: 20px;">
+        			<a href="#">
+      					<img class="media-object" src="../page/images/per.jpg" alt="">
+    				</a>
+        		</div>
+        		
+        		<div class="media-body">
+        			<div id="line-chart">
+		            	<div class="" style="margin-left: 0px;margin-right: 0px">
+		            		<table style="border: 0px;">
+		            			<tr style="height: 60px;">
+		            				<td>
+		            					<label style="float: left" class="b" style="size: 30px"><span class="icon-user" aria-hidden="true"></span> 姓名：</label>
+		            				</td>
+		            				<td>
+		            					<input style="float: left;" value="${loginUser.name}" placeholder="请输入姓名" />
+		            				</td>
+		            				<td style="margin-left: 30px;">
+		            					<label style="float: left" class="b" style="size: 30px"><span class="icon-phone" aria-hidden="true"></span> 电    话：</label></td>
+		            				<td>
+		            					<input style="float: left;" value="${loginUser.tell }" placeholder="请输入电话" /></td>
+		            			</tr>
+		            			<tr style="height: 60px;">
+		            				<td>
+		            					<label style="float:left;" class="b"><span class="icon-briefcase"></span> 年级：</label>
+		            				</td>
+		            				<td>
+		            					<input style="float: left;" value="${stuGrade.gradeName }" />
+		            				</td>
+		            				<td>
+		            					<label style="float:left;" class="b"><span class="icon-star"></span> 入学时间：</label>
+		            				</td>
+		            				<td>
+		            					<input style="float: left;" value="${loginUser.joinTime }" />
+		            				</td>
+		            			</tr>
+		            			<tr style="height: 60px;">
+		            				<td>
+		            					<label style="float:left;" class="b"><span class="icon-home"></span> 地址：</label>
+		            				</td>
+		            				<td colspan="3">
+		            					<textarea rows="3" cols="6" style="width: 100%">${loginUser.address }</textarea>
+		            				</td>
+		            			</tr>
+		            		</table>
+		            		
+		            		
+		            	</div>
             	
             	
-            </div>
+            		</div>
+        		
+        		</div><!-- media body end -->
+        	</div>
+            
         </div>
     </div>
 </div>

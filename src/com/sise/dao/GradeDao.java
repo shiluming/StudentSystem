@@ -127,10 +127,32 @@ public class GradeDao extends BaseCrud<Grade>{
 		jdbcTemplate.query(sb.toString(), obj,new RowCallbackHandlerGrade(list));
 		return list;
 	}
+	
+	public List<Grade> findByLimit(Integer page,Integer pageSize,String search,Integer id) {
+		StringBuilder sb = new StringBuilder("SELECT * FROM tb_class WHERE 1=1");
+		Object[] obj = null;
+		if(search!=null) {
+			search = EncodingTool.encodeStr(search);
+			sb.append(" and gradeName like ?");
+			obj = new Object[]{"%"+search+"%",id,page,pageSize};
+		}else {
+			obj = new Object[]{id,page,pageSize};
+		}
+		
+		sb.append(" and teacher = ? ORDER BY id ASC LIMIT ?,?");
+		List<Grade> list = new ArrayList<Grade>();
+		jdbcTemplate.query(sb.toString(), obj,new RowCallbackHandlerGrade(list));
+		return list;
+	}
 
 	@Override
 	public Integer count() throws Exception {
 		String sql = "SELECT COUNT(*) FROM tb_class";
+		return jdbcTemplate.queryForObject(sql, Integer.class);
+	}
+	
+	public Integer countByTeacher(Integer id) throws Exception {
+		String sql = "SELECT COUNT(*) FROM tb_class WHERE teacher = " + id;
 		return jdbcTemplate.queryForObject(sql, Integer.class);
 	}
 	

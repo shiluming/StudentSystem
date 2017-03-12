@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
   <!-- 教师个人信息页面 -->
 <style>
 .b {
@@ -52,7 +53,7 @@
             					<label style="float:left;" class="b"><span class="icon-star"></span> 性 别：</label>
             				</td>
             				<td>
-            					<select name="sexual">
+            					<select name="sexual" id="sexual">
             						<option>男</option>
             						<option>女</option>
             					</select>
@@ -200,6 +201,13 @@
 
 
 <script type="text/javascript">
+
+$(function(){
+	var sex = "${teaObj.sex}";
+	$("#sexual").val(sex);
+	
+});
+
 function opFormatter(id) {
 	return '<a href="#" onclick="showClassModal(this);" data-class="'+id+'">删除 </a>&nbsp;'+
 	'<a href="${pageContext.request.contextPath}/cls/goEditView.do?id='+id+'">修改 </a>';
@@ -268,65 +276,4 @@ function queryParams(params) {
     return temp;  
 }
 </script>
-<!-- 
-<div class="row-fluid">
-    <div class="block span6">
-        <div class="block-heading" data-toggle="collapse" data-target="#widget2container">记事本<span class="label label-warning">+10</span></div>
-        <div id="widget2container" class="block-body collapse in">
-            <table class="table">
-              <tbody>
-                  <tr>
-                      <td>
-                          <p><i class="icon-user"></i> Mark Otto</p>
-                      </td>
-                      <td>
-                          <p>Amount: $1,247</p>
-                      </td>
-                      <td>
-                          <p>Date: 7/19/2012</p>
-                          <a href="#">View Transaction</a>
-                      </td>
-                  </tr>
-                  <tr>
-                      <td>
-                          <p><i class="icon-user"></i> Audrey Ann</p>
-                      </td>
-                      <td>
-                          <p>Amount: $2,793</p>
-                      </td>
-                      <td>
-                          <p>Date: 7/12/2012</p>
-                          <a href="#">View Transaction</a>
-                      </td>
-                  </tr>
-                  <tr>
-                      <td>
-                          <p><i class="icon-user"></i> Mark Tompson</p>
-                      </td>
-                      <td>
-                          <p>Amount: $2,349</p>
-                      </td>
-                      <td>
-                          <p>Date: 3/10/2012</p>
-                          <a href="#">View Transaction</a>
-                      </td>
-                  </tr>
-                  <tr>
-                      <td>
-                          <p><i class="icon-user"></i> Ashley Jacobs</p>
-                      </td>
-                      <td>
-                          <p>Amount: $1,192</p>
-                      </td>
-                      <td>
-                          <p>Date: 1/19/2012</p>
-                          <a href="#">View Transaction</a>
-                      </td>
-                  </tr>
-                    
-              </tbody>
-            </table>
-        </div>
-    </div>
-</div>
- -->
+

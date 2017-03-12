@@ -187,7 +187,6 @@ public class StudentDao extends BaseCrud<Student> implements LoginService<Studen
 		StringBuilder sb = new StringBuilder("SELECT * FROM tb_student WHERE 1=1");
 		Object[] obj = null;
 		if(search!=null) {
-			search = EncodingTool.encodeStr(search);
 			sb.append(" and name like ?");
 			obj = new Object[]{"%"+search+"%",page,pageSize};
 		}else {
@@ -203,7 +202,6 @@ public class StudentDao extends BaseCrud<Student> implements LoginService<Studen
 		StringBuilder sb = new StringBuilder("SELECT * FROM tb_student WHERE 1=1");
 		Object[] obj = null;
 		if(search!=null) {
-			search = EncodingTool.encodeStr(search);
 			sb.append(" and name like ?");
 			obj = new Object[]{"%"+search+"%",page,pageSize};
 		}else {
@@ -229,6 +227,7 @@ public class StudentDao extends BaseCrud<Student> implements LoginService<Studen
 	}
 	public Integer count(String search,Integer classId) {
 		StringBuilder sb = new StringBuilder();
+		
 		sb.append("SELECT COUNT(*) FROM tb_student WHERE 1=1");
 		if(search!=null) {
 			sb.append(" and name like '%"+search+"%'");
